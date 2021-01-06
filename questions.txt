@@ -1,0 +1,37 @@
+1. Att man använder sig utav ett verktyg som låter en på ett smidigt sätt ha flera olika versioner av sin kod från ett arbete
+eller projekt för att man enkelt och smidigt ska kunna skapa, läsa, redigera och merga olika versioner av sin kod.
+
+2. Att två olika branches samman sätter dem nya förändringarna i ens kod som finns i en och samma fil. Så om jag tex skapar en
+branch, branch_B, som är en identisk kopia av branch_A, och sedan gör förändringar i koden i branch_B så kan jag sedan merga branch
+A och B. Det som händer då är att alla förändringar jag har gjort i branch_B kopieras över till branch_A.
+
+3. För att merga branch_B till branch_A;
+	git checkout branch_A
+	git merge branch_B
+
+4. SVN
+
+5. git är självständig ifrån github och kan användas på även andra platformar
+
+6. En merge conflict händer om två olika branches ska merga till en och samma branch men dem båda ändrar på samma ställe i koden. 
+För då vet inte git vilken branch som gäller. Det kan även inträffa om det endast är två branches som används, tex om master 
+är på commit 1, vi kallar det M1, och vi gör en ny branch utifrån M1, vi kallar den D0 (siffran är hur många commits).
+Sen gör vi lite ändringar på D0 och commitar dem ändringarna så vanligt, D1. Men innan vi mergar D1 till M1 så har kanske en annan
+person gjort några förändringar i master branchen så den ligger nu på M2, även om ändringarna i D1 och M2 inte direkt har någon
+påverkan på varandra, tex att D1 lägger till en kommentar i en koden och M2 lägger till en annan kommentar i koden på någon annan
+rad, så kommer vi få en merge conflict.
+
+7. git log
+
+8. Det skapar en "osynlig" .git map som håller koll på alla branches, history, commits osv osv
+
+9. Varför det är viktigt med versionshantering, att tex göra branches man bygger sin kod på först innan man mergar det till master, är
+är för att det väldigt enkelt kan bli fel någonstans i ens kod, särksilt om man jobbar på större projekt. Därför är det bra att man 
+på ett smidigt sätt kan gå tillbaka i tiden till en tidigare version man tex vet att något fungerande som det var tänkt. Eller om
+man tex ta bort en funktionalitet så kan det vara bättre att gå till en tidigare version än att bara radera kod, för då riskerar
+man också att något kan gå snett. Basically, när man ska göra någon form av förändring i ens kod, vare sig det är att lägga till 
+eller att ta bort, så är det bättre att göra väldigt små förändringar åt gången för att minimera att det blir fel.
+Att separera koden in till branches låter en göra det på effektivt sätt, särskilt om man jobbar med andra.
+
+10. git pull - gör inga förändringar på remote servern.
+git push - gör förändringar på remote servern. (förutsatt att set-upstream är uppsatt)
