@@ -1,0 +1,89 @@
+Det jag börjar med är att använda mig utav kommandot "git init" för att initialize git i mappen jag jobbar i.
+Detta skapar en "osynlig" .git map som håller koll på alla branches, history, snapshots osv.
+Utan denna .git map så kommer inga övriga git kommandon att fungera, därför börjar jag med det.
+
+Efter alla filer har skapats och koden är skriven så ska vi pusha upp det till github, så vi behöver först skapa en ny
+remote repository på github, annars så har vi ingenstans att ladda upp våran lokala repository till. Jag hade kunnat använt 
+mig av BitBucket annars om inte github var tillgängligt, men i denna uppgift så ska vi använda github.
+Sen så ska vi spara vårt arbete i master branchen, detta gör vi genom att först skriva in "git add --all". Detta lägger till
+alla förändringar som har gjorts i våran map till gits "staging area". Man kan se staging area som en form att av första steg 
+för att kontrollera att man har lagt till eller tagit bort rätt filer innan man sparar det i en commit. Sen när man har 
+kontrollerat att rätt filer har kommit med i staging area så ska vi "spara" arbetet genom att använda git kommandot 
+'git commit -m "Initial commit"'. Commit säger till git att vi vill spara filerna som ligger i staging area, -m är en flagga som
+låter oss skriva ett meddelande för våran commit direkt i terminalen. Utan -m flaggan så kommer git att öppna en text editor
+åt oss där vi annars får skriva vårat meddelande. Meddelandet är alltså obligatoriskt, vilket är logiskt eftersom man vill veta
+vad det är för förändringar som sker med varje commit. Det är det man ska skriva kortfattat i meddelandet så det blir enklare
+att hålla koll och organisera ens arbete. Sista delen innan vårat repo är uppladdat till github är att lägga till vårt remote repo.
+Detta gör vi genom att använda kommandot "git remote add origin <URL to github repo>". I detta kommando så använder vi först oss
+utav "git", vilket säger till terminalen att vi vill använda oss utav git och dess olika kommandon. Nästa kommando, "remote",
+säger till git att vi vill använda oss utav ett remote repo, "add" är då att vi vill lägga till ett nytt remote repo.
+"origin" är bara ett standard naming convention, vi hade lika gärna kunnat ha kallat det för apa om vi så vill, eller något som 
+är mer passande utefter vårat projekt. Men annars så är origin en sorts standard man använder sig utav. Och sist, adressen (URL) till 
+vart git kan hitta vårat remote repo.
+För att sätta våran upstream, alltså vilket remote repo kommer bli default repot git ska pusha till, så kan vi använda oss utav
+"git push -u origin master", där origin är namnet till vårat remote repo som jag nämnde tidigare, och master är namnet på våran branch.
+Om vi byter namn på branchen, som github vill att man ska göra, till "main" så ska det alltså stå "git push -u origin main" istället.
+-u flaggan är en shorthand för "--set-upstream".
+Nu när våran upstream är klar så behöver vi bara använda oss utav kommandot "git push" för att skicka våran senaste commit till github,
+därför sätter man upp en default upstream så det ska gå smidigare att pusha koden till github.
+
+Nästa steg i uppgiften så ska vi göra en ny branch, detta gör man genom kommandor "git branch <branch name>". Och sen för att byta
+till den branchen så använder man "git checkout <branch name>". En shorthand för detta är "git checkout -b <branch name>". 
+Då skapar man en ny branch och byter till den i ett och samma kommando. Annars för att bara byta till en annan branch så använder
+man "git checkout <branch name>".
+
+Efter vi har gjort våra förändringar i koden så gör vi precis som tidigare, "git add <file name>" eller "git add --all",
+"git commit -m "commit_message". Nu är dem nya ändringarna sparande i den andra branchen, nu ska vi pusha och sätta en
+upstream för denna branch också, precis som vi gjorde i master branchen. Detta gör vi, som tidigare, med
+"git push --set-upstream origin <branch name>" eller med shorthand, "git push -u <branch name>". Nu, precis som med master branchen,
+så behöver vi bara skiva "git push" för att skicka till vårt remote repo på github från även denna branch.
+
+Nästa steg är göra en pull-request på githubs webbgränssnitt, detta gör vi genom att gå repots URL och högre upp på sidan så
+finns det en "pull requests" tab, där inne kan man hitta en ny ruta som har skapats som säger "<branch name> had recent push" och
+en knapp, "Compare & pull request", tryck på den. Sedan "Create pull request" och sen "Merge pull request". (se till att rätt
+branches är valda, det ska stå "merge into master from <branch name>"). Om man får "merge conflict" så är det för att man har
+gjort två olika ändringar på samma ställe och då vet inte git vilken ändring det är som gäller. När detta sker så får man alltså
+merga koden manuellt (eller ändra så att dem olika branches inte ändrar på samma ställe i koden), man gör det genom att ta bort
+ena koden man inte vill ha manuellt, och sen går det bra att merga koden på github.
+
+I del 2 så börjar vi med att kopiera URL till github repot vi precis har forkat, och sen i terminalen så använder vi kommandot 
+"git clone <URL>". Detta kommer att kopiera det repot som finns remote, ner till vår lokala datorn.
+I nästa steg så gör som tidigare, "git checkout -b improbements" (skapa ny branch och byt till den), efter att ha ändrat i koden 
+så "git add <file name>" eller "git add --all" (lägger till dem förändrade filerna till staging area), "git commit -m "commit message"
+(sparar filerna från staging area), "git push" (pushar koden till github. vi behöver inte sätta en uppstream eftersom det har man
+redan gjort tidigare när man ladda upp detta repo på gihub, och eftersom vi kopierade hela repot, inklusive .git mappen, så får vi
+även med alla settings som tex ens "default remote repo"). "git push" funkar så länge man inte byter till en branch
+som inte har en upstream. Nu när ändringarna ligger i ens fork på github så ska man skapa en pull request till original repot
+och om ägaren till repot godkänner pullen (och det inte finns någon merge conflict) så kommer koden att mergas.
+
+
+Fördelen med att använda sig utav pull-request när man jobbar med andra människor är att det underlättar att merga all kod på ett
+och samma ställe, som tex på github. Man kan göra branches, merga kod osv lokalt med endast git, vilket man i sin tur kan ha på en
+server som allas datorer är kopplade till. Men github gör hela den processen mycket enklare genom att man kan sätta upp en remote 
+repository med bara några klicks, alla man arbetar med i teamet kan komma åt repot från hela världen, dem har ett effektivt gränssnitt
+för att visuellt hjälpa med code reviews, kolla merge conflicts, commit & merge history osv. Fördelen med att jobba med git överlag
+har mest att göra med att man kan enkelt göra branches och merga koden i den branchen till ens master branch. På det sättet så blir
+det enklare att kontrollera att förändringarna man gör inte förstör något i ens tidigare fungerande kod, för om man råkar göra fel
+nånstans så är det väldigt enkelt att gå tillbaka till en tidigare version där man vet att koden var fungerande.
+(Därav namnet, versionhantering). På samma sätt blir det när man gör pull requests på github, tex så har man ett repo på github
+där alla pushar sin kod till från sina respektive branches genom att vara collaborator på projektet. (att vara collaborator ger
+en tillgång till att pusha och fetcha kod snabbt och enkelt) och då kan den eller dem som bestämmer hur koden ska vara merga koden
+på github så liksom "HEAD" koden hela tiden får in uppdateringarna teamet jobbar på. Eller, på liknande sätt, så kan varje individ 
+göra en fork utifrån ett "main" github repo där dem själva pushar sin kod till och sen gör en pull request på github där dem
+ansvariga får sedan ansvaret att godkänna eller inte. Jag kan tänka mig att det är många open source projekt som fungerar på det sättet.
+
+Tex så kan ett workflow se ut som att man har ett github repo med olika branches, en branch per developer och en main/master branch.
+Sen så jobbar varje developer på var sin branch lokalt på ens egna dator, där så kan dem sedan ha olika branches för att versionhantera
+sin personliga "main" branch. Exempel så kan jag göra en development_branch utifrån oscars_branch för att testa olika förändringar
+jag håller på att jobba på innan jag implementerar det i oscars_branch. När development_branch är klar och har testats och man vet
+att den är fungerande så kan jag då merga den koden till oscars_branch. Så fortsätter man så tills jag har jobbat klart
+med uppdateringen på oscars_branch och då pushar jag upp den till github, där den eller dem som är ansvarig ser till att merga koden.
+Och eventuellt ge feedback på vart man behöver ändra på saker och ting.
+
+Varför det är viktigt med versionshantering, att tex göra branches man bygger sin kod på först innan man mergar det till master, är
+för att det väldigt enkelt kan bli fel någonstans i ens kod, särksilt om man jobbar på större projekt. Därför är det bra att man 
+på ett smidigt sätt kan gå tillbaka i tiden till en tidigare version man tex vet att något fungerande som det var tänkt. Eller om
+man tex ta bort en funktionalitet så kan det vara bättre att gå till en tidigare version än att bara radera kod, för då riskerar
+man också att något kan gå snett. Basically, när man ska göra någon form av förändring i ens kod, vare sig det är att lägga till 
+eller att ta bort, så är det bättre att göra väldigt små förändringar åt gången. Git låter en göra det på effektivt sätt, särskilt
+om man jobbar med andra.
